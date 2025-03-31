@@ -15,3 +15,18 @@ export interface CartContextType {
   removeFromCart: (id: number) => void;
   proceedToCheckout: () => void;
 }
+
+export interface ProductProps {
+  id: number;
+  name: string;
+  imageSrc: string;
+  price: string;
+  rating?: number;
+}
+
+export interface PriceDetailsProps {
+  total: number;
+  discount: number;
+  savings: number;
+  totalPriceBeforeDiscount: number;
+}

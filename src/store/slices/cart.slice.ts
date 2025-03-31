@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product, PriceDetailsProps } from "../../types";
+import { Product } from "../../types";
 
 interface CartState {
-  cart: Product[];
+  items: Product[];
 }
 
 const initialState: CartState = {
-  cart: [],
+  items: [],
 };
 
 const discountRate = 0.1;
@@ -18,30 +18,30 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<Omit<Product, 'quantity'> & { quantity?: number }>) => {
       const { id, name, imageSrc, price } = action.payload;
-      const existingItem = state.cart.find(item => item.id === id);
+      const existingItem = state.items.find(item => item.id === id);
       
       if (existingItem) {
         if (existingItem.quantity! >= 10) return;
         existingItem.quantity! += 1;
       } else {
-        state.cart.push({ id, name, imageSrc, price, quantity: 1 });
+        state.items.push({ id, name, imageSrc, price, quantity: 1 });
       }
     },
     updateQuantity: (state, action: PayloadAction<{ id: number; newQuantity: number }>) => {
       const { id, newQuantity } = action.payload;
-      const item = state.cart.find(item => item.id === id);
+      const item = state.items.find(item => item.id === id);
       if (item) item.quantity = newQuantity;
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
-      state.cart = state.cart.filter(item => item.id !== action.payload);
+      state.items = state.items.filter(item => item.id !== action.payload);
     },
     proceedToCheckout: (state) => {
-      state.cart = [];
+      state.items = [];
     },
   },
   selectors: {
-    getTotalPrice: (state): PriceDetailsProps => {
-      const totalPriceBeforeDiscount = state.cart.reduce((total, item) => {
+    getTotalPrice: (state) => {
+      const totalPriceBeforeDiscount = state.items.reduce((total, item) => {
         const itemPrice = parseFloat(item.price.replace(/₹|,/g, ""));
         return total + itemPrice * item.quantity!;
       }, 0);
@@ -56,6 +56,6 @@ const cartSlice = createSlice({
 });
 
 export const { addToCart, updateQuantity, removeFromCart, proceedToCheckout } = cartSlice.actions;
-export const selectCart = (state: { cart: CartState }) => state.cart.cart;
+export const selectCart = (state: { cart: CartState }) => state.cart.items;
 export const selectTotalPrice = cartSlice.selectors.getTotalPrice;
 export default cartSlice.reducer;

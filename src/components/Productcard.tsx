@@ -3,15 +3,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../store/slices/cart.slice";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-
-
-interface ProductProps {
-    id: number;
-    name: string;
-    imageSrc: string;
-    price: string;
-    rating?: number;
-}
+import { ProductProps } from "../types";
 
 export default function App({ id, name, imageSrc, price, rating }: ProductProps) {
     const dispatch = useDispatch();

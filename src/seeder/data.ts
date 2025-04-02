@@ -51,7 +51,7 @@ export const productImage: Product[] = [
     },
     {
         id: 5,
-        name: "Moto G85 Plus",
+        name: "Moto G86 Plus",
         imageSrc: mobile,
         price: "17,999",
         rating: 4.3
